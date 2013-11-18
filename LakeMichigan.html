@@ -28,6 +28,27 @@ button {
 	top: 10px;
 }
 
+div.tooltip {   
+	position: absolute;           
+	text-align: left;           
+	width: 200px;                  
+	height: 70px;                 
+	padding: 15px;             
+	font: 16px sans-serif;        
+	background: #FEF0D9;
+	border: 0px;      
+	border-radius: 8px;           
+	pointer-events: none;         
+}
+/*
+The position of the tooltip is done in absolute measurements, not relative
+The text is left aligned, 
+the size and colour of the rectangle is 200px x 70px and light orange
+The 'padding' grows the shape by a fixed amount from a specified size
+We set the border to 0px so that it doesn't show up
+Border-radius provides the nice rounded corners on the rectangle
+Pointer-events: none instructs the mouse event to see through the element and target whatever is underneath
+*/
 </style>
 <body>
 <script src="http://d3js.org/d3.v3.js"></script>
@@ -45,21 +66,18 @@ var snarray = [];
 
 function chart(csvpath) {
 
-	var colorrange = ["#045A8D", "#2B8CBE", "#74A9CF", "#A6BDDB", "#D0D1E6", "#F1EEF6"];
-	strokecolor = colorrange[0];
-//	strokecolor = ["#74A9CF"];
-	var margin = {top: 20, right: 40, bottom: 30, left: 30};
+	var colorrange = ["#045A8D", "#74A9CF", "#D0D1E6", "#2B8CBE", "#A6BDDB", "#F1EEF6"];
+	strokecolor = ["#FDBB84"];
+	var margin = {top: 40, right: 20, bottom: 50, left: 20};
 	var width = document.body.clientWidth - margin.left - margin.right;
 	var height = 600 - margin.top - margin.bottom;
 
-	var tooltip = d3.select("body")
-		.append("div")
-		.attr("class", "remove")
-		.style("position", "absolute")
-		.style("z-index", "40")
-		.style("visibility", "hidden")
-		.style("top", "30px")
-		.style("right", "55px");
+	formatcomma3 = d3.format(",.3r");
+	format4 = d3.format("0000");
+
+	var div = d3.select("body").append("div")   
+		.attr("class", "tooltip")               
+		.style("opacity", 0);
 
 	var x = d3.scale.linear()
 		.range([0, width]);
@@ -72,7 +90,8 @@ function chart(csvpath) {
 
 	var xAxis = d3.svg.axis()
 		.scale(x)
-		.orient("bottom");
+		.orient("bottom")
+		.tickFormat(format4);
 
 	var yAxis = d3.svg.axis()
 		.scale(y);
@@ -122,12 +141,28 @@ function chart(csvpath) {
 			.attr("transform", "translate(0," + height + ")")
 			.call(xAxis);
 
+		svg.append("text")      // text label for the x axis
+			.attr("x", width / 2 )
+			.attr("y",  height + margin.bottom)
+			.style("text-anchor", "middle")
+			.text("Year");
+
+		svg.append("text")      // title
+			.attr("x", width / 2 )
+			.attr("y",  0)
+			.attr("font-size", "20px")
+			.style("text-anchor", "middle")
+			.text("Lake Michigan Commercial Fishing Harvest");
+
+//		mouseover: Triggered by an element when the mouse comes over it
+//		mousemove: Triggered by an element on every mouse move over it
+//		mouseout: Triggered by an element when the mouse goes out of it
+
 		svg.selectAll(".layer")
-			.attr("opacity", 1)
 			.on("mouseover", function(d, i) {
 				svg.selectAll(".layer").transition()
-				.duration(250)
-				.attr("opacity", function(d, j) { return j != i ? 0.6 : 1; })
+					.duration(250)
+					.style("fill", function(d, j) { return j != i ? z(j) : strokecolor; })
 			})
 			.on("mousemove", function(d, i) {
 				mousex = d3.mouse(this);
@@ -137,9 +172,9 @@ function chart(csvpath) {
 				closest = null;
 				yheight = null;
 				for (var k = 0; k < selected.length; k++) {
-					xarray[k] = selected[k].year;				// xarray[] are the actual input values of x in x units
-					yhtarray[k] = selected[k].ton;				// yhtarray[] are the actual input values of y in y units
-					snarray[k] = selected[k].sciname;			// snarray[] are the actual input values of scientific names
+					xarray[k] = selected[k].year;					// xarray[] are the actual input values of x in x units
+					yhtarray[k] = formatcomma3(selected[k].ton);	// yhtarray[] are the actual input values of y in y units
+					snarray[k] = selected[k].sciname;				// snarray[] are the actual input values of scientific names
 					// find the closest actual value of x to ... the mouse selected value of x
 					if (closest == null || (Math.abs(xarray[k] - invertedx) < Math.abs(closest - invertedx))) {
 						closest = xarray[k];
@@ -147,59 +182,37 @@ function chart(csvpath) {
 						latin = snarray[k];
 					}
 				}
-
-				console.log(mousex, "mousex");
+/*				console.log(mousex, "mousex");
 				console.log(invertedx, "invertedx");
 				console.log(closest, "closest");
 				console.log(yheight, "yheight");
-				console.log(latin, "latin");
+				console.log(latin, "latin");			*/
 
-				d3.select(this)
-					.classed("hover", true)
-					.attr("stroke", strokecolor)
-					.attr("stroke-width", "1px"), 
-						tooltip.html( 
-							"<p>Species: " + d.key + 
-							"<br>&nbsp&nbsp&nbsp&nbsp(" + latin + ")" +
+				// define variable for adjusting the x-location of the tooltip based on the x-pixels of the mouse
+				var xadjust = 0;
+				if(mousex>230) xadjust = -230;
+
+				div.transition()
+					.duration(200)      
+					.style("opacity", .8);      
+				div .html( 
+							"Species: " + d.key + 
+							"<br>&nbsp&nbsp&nbsp&nbsp" + latin +
 							"<br>Year:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + closest + 
 							"<br>Tons:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + yheight + 
-							"</p>" )
-							.style("visibility", "visible");
+							"</p>" )  
+					.style("left", (d3.event.pageX + xadjust) + "px")     
+					.style("top", (d3.event.pageY - 110) + "px");    
+
 			})
 			.on("mouseout", function(d, i) {
 				svg.selectAll(".layer")
 					.transition()
 					.duration(250)
-					.attr("opacity", "1");
-				d3.select(this)
-					.classed("hover", false)
-					.attr("stroke-width", "0px"), 
-						tooltip.html( "" )
-							.style("visibility", "hidden");
-			});  // I added this semicolon
-		
-		var vertical = d3.select(".chart")
-			.append("div")
-			.attr("class", "remove")
-			.style("position", "absolute")
-			.style("z-index", "19")
-			.style("width", "2px")
-			.style("height", "570px")
-			.style("top", "10px")
-			.style("bottom", "30px")
-			.style("left", "0px")
-			.style("background", "#fff");
-
-		d3.select(".chart")
-			.on("mousemove", function(){  
-				 mousex = d3.mouse(this);
-				 mousex = mousex[0] + 5;
-				 vertical.style("left", mousex + "px" )
-			})
-			.on("mouseover", function(){  
-				 mousex = d3.mouse(this);
-				 mousex = mousex[0] + 5;
-				 vertical.style("left", mousex + "px")
+					.style("fill", function(d, j) { return z(j); });
+				div.transition()        
+					.duration(500)      
+					.style("opacity", 0);   
 			});
 	});
 }
