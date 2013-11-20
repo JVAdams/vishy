@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+	.link line {
+		stroke: gray;}
+	.link line.separator {
+		stroke: white;}
+	.node circle {
+		stroke: gray;
+		stroke-width: 1.5;}
+	.node text {
+		font: 16px sans-serif;
+		pointer-events: none;}
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<div id="header" style="background-color:#feefe0; height:250px; width:1100px; padding: 0px 10px 0px 10px; float:left;">
+	<h2>Members of the Sea Lamprey Control Board and its Task Forces</h2>
+	<h4>Members of the Sea Lamprey Control Board and its Task Forces are shown below: 
+	Core (CORE) and plenary (PLEN) members of the Board, Budget Integration Group (BIG), 
+	Lampricide Control (LCTF), Trapping (TTF), Barrier (BTF), and Larval Assessment (LATF) Task Forces. 
+	Each agency has a unique color.
+	Group chairs are connected with double lines.
+	Some task force slots are filled with biologists on a rotating basis, denoted with an asterisk (*) after their names.
+	<em>If part of the diagram is not visible, you can click and drag it into view.</em>
+	<br><br>Office locations are also shown.  Scroll down to see the map.
+	<br><br>The table, diagram, and map are all interconnected.
+	<b>Mouse over</b> a row in the table, a person or group in the diagram, or a location in the map, and see what happens.
+	</h4>
+	</div>
+<div id="mytable" style="height:1000px; width:300px; float:left;"></div>
+<div id="mysvg1"  style="height: 650px; width:800px; float:left;"></div>
+<div id="mysvg2"  style="height: 274px; width:800px; float:left; background-image:url(MyMapWideTrans.png); background-color:#cccccc;"></div>
+<div id="gap3"    style="height:  30px; width:800px; float:left;"><small><em>Last updated 20 November 2013.</em></small></div>
+
+<script>
+
+	var height = 650;
+	var width = 800;
+	var mheight = 274;
+	var mwidth = 800;
+	var padding = 30;
+
+	var color = d3.scale.category20c();
+
+	var radius = d3.scale.sqrt()
+		.range([0, 3]);
+
+	var scale = d3.scale.linear();
+
+	var svg = d3.select("#mysvg1").append("svg")
+		.attr("width", width)
+		.attr("height", height);
+
+	var svg2 = d3.select("#mysvg2").append("svg")
+		.attr("width", mwidth)
+		.attr("height", mheight);
+
+	var force = d3.layout.force()
+		.size([width, height])
+		.charge(-240)
+		.linkStrength(0.3)
+		.linkDistance(function(d) {
+			return radius(d.source.size) + radius(d.target.size) - 40 + (2 / (2*d.bond))
+			; });
+
+	var graph = 
+{
+ "nodes": [ {
+ "Last": "Hansen",
+"First": "Mike",
+"Agency": "USGS",
+"City": "RogersCity",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Hewett",
+"First": "Steve",
+"Agency": "WIDNR",
+"City": "Madison",
+"StateProv": "WI",
+"size": "12" 
+},
+{
+ "Last": "Madenjian",
+"First": "Chuck",
+"Agency": "USGS",
+"City": "AnnArbor",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Mattes",
+"First": "Bill",
+"Agency": "GLIFWC",
+"City": "Odanah",
+"StateProv": "WI",
+"size": "12" 
+},
+{
+ "Last": "Miller",
+"First": "Jim",
+"Agency": "MSU",
+"City": "EastLansing",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Poston",
+"First": "Fred",
+"Agency": "OMNR",
+"City": "Picton",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Schreiner",
+"First": "Don",
+"Agency": "MNDNR",
+"City": "Duluth",
+"StateProv": "MN",
+"size": "12" 
+},
+{
+ "Last": "Stewart",
+"First": "Tom",
+"Agency": "MSU",
+"City": "EastLansing",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Mullett",
+"First": "Kasia",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Slade",
+"First": "Jeff",
+"Agency": "USFWS",
+"City": "Ludington",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "SullivanP",
+"First": "Paul",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Burkett",
+"First": "Dale",
+"Agency": "GLFC",
+"City": "AnnArbor",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Siefkes",
+"First": "Mike",
+"Agency": "GLFC",
+"City": "AnnArbor",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Treska",
+"First": "Ted",
+"Agency": "GLFC",
+"City": "AnnArbor",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Stephens",
+"First": "Brian",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Adams",
+"First": "Jean",
+"Agency": "USGS",
+"City": "Antigo",
+"StateProv": "WI",
+"size": "12" 
+},
+{
+ "Last": "Boogaard",
+"First": "Mike",
+"Agency": "USGS",
+"City": "LaCrosse",
+"StateProv": "WI",
+"size": "12" 
+},
+{
+ "Last": "Criger",
+"First": "Lori",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Hubert",
+"First": "Terry",
+"Agency": "USGS",
+"City": "LaCrosse",
+"StateProv": "WI",
+"size": "12" 
+},
+{
+ "Last": "Kaye",
+"First": "Cheryl",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Nowicki",
+"First": "Shawn",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Morrison",
+"First": "Bruce",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Slaght",
+"First": "Karen",
+"Agency": "USGS",
+"City": "RogersCity",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "SullivanT",
+"First": "Tim",
+"Agency": "USFWS",
+"City": "Ludington",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Walter",
+"First": "Lisa",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Wilkie",
+"First": "Mike",
+"Agency": "WLU",
+"City": "Waterloo",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Barber",
+"First": "Jess",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Claramunt",
+"First": "Randy",
+"Agency": "MIDNR",
+"City": "Charlevoix",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Elliot",
+"First": "Rob",
+"Agency": "USFWS",
+"City": "NewFranken",
+"StateProv": "WI",
+"size": "12" 
+},
+{
+ "Last": "Galloway*",
+"First": "Jim",
+"Agency": "USACE",
+"City": "Detroit",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Johnson",
+"First": "Nick",
+"Agency": "USGS",
+"City": "RogersCity",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "McLaughlin",
+"First": "Rob",
+"Agency": "UG",
+"City": "Guelph",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Paudel",
+"First": "Bhuwani",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Platz*",
+"First": "Carl",
+"Agency": "USACE",
+"City": "GrandHaven",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Pratt",
+"First": "Tom",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Rose",
+"First": "Melissa",
+"Agency": "OMNR",
+"City": "Peterborough",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "VanKempen",
+"First": "Tonia",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Bravener",
+"First": "Gale",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Haro",
+"First": "Alex",
+"Agency": "USGS",
+"City": "TurnersFalls",
+"StateProv": "MA",
+"size": "12" 
+},
+{
+ "Last": "Hrodey*",
+"First": "Pete",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Klingler*",
+"First": "Greg",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Li",
+"First": "Weiming",
+"Agency": "MSU",
+"City": "EastLansing",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Miehls",
+"First": "Scott",
+"Agency": "USGS",
+"City": "RogersCity",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Rivera",
+"First": "Jane",
+"Agency": "USGS",
+"City": "LaCrosse",
+"StateProv": "WI",
+"size": "12" 
+},
+{
+ "Last": "Steeves",
+"First": "Mike",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Wagner",
+"First": "Mike",
+"Agency": "MSU",
+"City": "EastLansing",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Brenden",
+"First": "Travis",
+"Agency": "MSU",
+"City": "EastLansing",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Gonzalez",
+"First": "Alex",
+"Agency": "USFWS",
+"City": "Ludington",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Holbrook",
+"First": "Chris",
+"Agency": "USGS",
+"City": "RogersCity",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Jubar*",
+"First": "Aaron",
+"Agency": "USFWS",
+"City": "Ludington",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Kanieski*",
+"First": "Lyn",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Keffer*",
+"First": "Dave",
+"Agency": "USFWS",
+"City": "Ludington",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Morrison*",
+"First": "Sean",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Neave",
+"First": "Fraser",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Rantamaki*",
+"First": "Jeff",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Symbal*",
+"First": "Matt",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Tallon*",
+"First": "Kevin",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Adair",
+"First": "Bob",
+"Agency": "USFWS",
+"City": "Minneapolis",
+"StateProv": "MN",
+"size": "12" 
+},
+{
+ "Last": "Fodale",
+"First": "Mike",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Newman",
+"First": "Kurt",
+"Agency": "USGS",
+"City": "AnnArbor",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Strach",
+"First": "Russ",
+"Agency": "USGS",
+"City": "AnnArbor",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Twohey",
+"First": "Mike",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Wheatley",
+"First": "Michelle",
+"Agency": "DFO",
+"City": "Winnipeg",
+"StateProv": "MB",
+"size": "12" 
+},
+{
+ "Last": "CORE",
+"First": "x",
+"Agency": "x",
+"City": "x",
+"StateProv": "x",
+"size": "18" 
+},
+{
+ "Last": "BIG",
+"First": "x",
+"Agency": "x",
+"City": "x",
+"StateProv": "x",
+"size": "18" 
+},
+{
+ "Last": "LCTF",
+"First": "x",
+"Agency": "x",
+"City": "x",
+"StateProv": "x",
+"size": "18" 
+},
+{
+ "Last": "BTF",
+"First": "x",
+"Agency": "x",
+"City": "x",
+"StateProv": "x",
+"size": "18" 
+},
+{
+ "Last": "TTF",
+"First": "x",
+"Agency": "x",
+"City": "x",
+"StateProv": "x",
+"size": "18" 
+},
+{
+ "Last": "LATF",
+"First": "x",
+"Agency": "x",
+"City": "x",
+"StateProv": "x",
+"size": "18" 
+},
+{
+ "Last": "PLEN",
+"First": "x",
+"Agency": "x",
+"City": "x",
+"StateProv": "x",
+"size": "18" 
+} ],
+"links": [ {
+ "source":      0,
+"target":     63,
+"bond":      2 
+},
+{
+ "source":      1,
+"target":     63,
+"bond":      1 
+},
+{
+ "source":      2,
+"target":     63,
+"bond":      1 
+},
+{
+ "source":      3,
+"target":     63,
+"bond":      1 
+},
+{
+ "source":      4,
+"target":     63,
+"bond":      1 
+},
+{
+ "source":      5,
+"target":     63,
+"bond":      1 
+},
+{
+ "source":      6,
+"target":     63,
+"bond":      1 
+},
+{
+ "source":      7,
+"target":     63,
+"bond":      1 
+},
+{
+ "source":      8,
+"target":     64,
+"bond":      2 
+},
+{
+ "source":      9,
+"target":     64,
+"bond":      2 
+},
+{
+ "source":     10,
+"target":     64,
+"bond":      2 
+},
+{
+ "source":     11,
+"target":     64,
+"bond":      1 
+},
+{
+ "source":     12,
+"target":     64,
+"bond":      1 
+},
+{
+ "source":     13,
+"target":     64,
+"bond":      1 
+},
+{
+ "source":     11,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     13,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     14,
+"target":     65,
+"bond":      2 
+},
+{
+ "source":     15,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     16,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     17,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     18,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     19,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     20,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     21,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     22,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     23,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     24,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     25,
+"target":     65,
+"bond":      1 
+},
+{
+ "source":     11,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     12,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     14,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     19,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     26,
+"target":     66,
+"bond":      2 
+},
+{
+ "source":     27,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     28,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     29,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     30,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     31,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     32,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     33,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     34,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     35,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     36,
+"target":     66,
+"bond":      1 
+},
+{
+ "source":     11,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     12,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     15,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     26,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     31,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     37,
+"target":     67,
+"bond":      2 
+},
+{
+ "source":     38,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     39,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     40,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     41,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     42,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     43,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     44,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     45,
+"target":     67,
+"bond":      1 
+},
+{
+ "source":     11,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     13,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     14,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     15,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     24,
+"target":     68,
+"bond":      2 
+},
+{
+ "source":     44,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     46,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     47,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     48,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     49,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     50,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     51,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     52,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     53,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     54,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     55,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":     56,
+"target":     68,
+"bond":      1 
+},
+{
+ "source":      0,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":      8,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":      9,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     10,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     14,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     18,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     24,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     26,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     31,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     37,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     41,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     44,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     45,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     57,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     58,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     59,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     60,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     61,
+"target":     69,
+"bond":      1 
+},
+{
+ "source":     62,
+"target":     69,
+"bond":      1 
+} ],
+"locs": [ {
+ "long": "-83.8183303",
+"lat": "45.4214024",
+"City": "RogersCity" 
+},
+{
+ "long": "-89.4012302",
+"lat": "43.0730517",
+"City": "Madison" 
+},
+{
+ "long": "-83.7430378",
+"lat": "42.2808256",
+"City": "AnnArbor" 
+},
+{
+ "long": "-90.696851",
+"lat": "46.6082759",
+"City": "Odanah" 
+},
+{
+ "long": "-84.4838654",
+"lat": "42.7369792",
+"City": "EastLansing" 
+},
+{
+ "long": "-77.139223",
+"lat": "44.00862",
+"City": "Picton" 
+},
+{
+ "long": "-92.1004852",
+"lat": "46.7866719",
+"City": "Duluth" 
+},
+{
+ "long": "-87.3955954",
+"lat": "46.5475825",
+"City": "Marquette" 
+},
+{
+ "long": "-86.4525831",
+"lat": "43.9552825",
+"City": "Ludington" 
+},
+{
+ "long": "-84.3460896",
+"lat": "46.521858",
+"City": "SaultSteMarie" 
+},
+{
+ "long": "-89.1523353",
+"lat": "45.140245",
+"City": "Antigo" 
+},
+{
+ "long": "-91.2395807",
+"lat": "43.8013556",
+"City": "LaCrosse" 
+},
+{
+ "long": "-80.5204096",
+"lat": "43.4642578",
+"City": "Waterloo" 
+},
+{
+ "long": "-85.2584004",
+"lat": "45.3180632",
+"City": "Charlevoix" 
+},
+{
+ "long": "-87.8258463",
+"lat": "44.5310301",
+"City": "NewFranken" 
+},
+{
+ "long": "-83.0457538",
+"lat": "42.331427",
+"City": "Detroit" 
+},
+{
+ "long": "-80.2481666",
+"lat": "43.5448048",
+"City": "Guelph" 
+},
+{
+ "long": "-86.2283864",
+"lat": "43.0630734",
+"City": "GrandHaven" 
+},
+{
+ "long": "-78.319747",
+"lat": "44.309058",
+"City": "Peterborough" 
+},
+{
+ "long": "-72.5564777",
+"lat": "42.6042523",
+"City": "TurnersFalls" 
+},
+{
+ "long": "-93.26667",
+"lat": "44.983334",
+"City": "Minneapolis" 
+},
+{
+ "long": "-97.1374937",
+"lat": "49.8997541",
+"City": "Winnipeg" 
+} ] 
+}  
+;
+
+	// network diagram stuff
+
+	force
+		.nodes(graph.nodes)
+		.links(graph.links)
+		.on("tick", tick)
+		.start();
+
+	var link = svg.selectAll(".link")
+		.data(graph.links)
+		.enter().append("g")
+		.attr("class", "link");
+
+	link.append("line")
+		.style("stroke-width", function(d) { return (d.bond * 6) - 3 + "px"; });
+
+	link.filter(function(d) { return d.bond > 1; }).append("line")
+		.attr("class", "separator");
+
+	var node = svg.selectAll(".node")
+		.data(graph.nodes)
+		.enter().append("g")
+		.attr("class", function(d) { return "node " + d.Last + " " + d.City; })
+		.call(force.drag)
+		.on("mouseover", function(d) { 
+			d3.select(this).select("circle").style("stroke-width", 6); 
+		
+			// Figure out the neighboring node ids
+			var nodeNeighbors = graph.links.filter(function(link) {
+				return link.source.index === d.index || link.target.index === d.index;})
+			.map(function(link) {
+				return link.source.index === d.index ? link.target.index : link.source.index; });
+		
+			// Figure out locations corresponding to neighboring nodes
+			var nodeLocations = graph.links.filter(function(link) {
+				return link.source.index === d.index || link.target.index === d.index;})
+			.map(function(link) {
+				return link.source.index === d.index ? link.target.City : link.source.City; });
+
+			// Figure out table rows corresponding to neighboring nodes
+			var nodeNames = graph.links.filter(function(link) {
+				return link.source.index === d.index || link.target.index === d.index;})
+			.map(function(link) {
+				return link.source.index === d.index ? link.target.Last : link.source.Last; });
+
+			d3.select(this).select("circle").style("stroke", "orange").style("stroke-width", 6); 
+			d3.select(this).select("text").style("font", "20px sans-serif").style("font-weight", "bold");
+			// Now we select the neighboring circles and apply whatever style we want
+			svg.selectAll("circle").filter(function(node) {
+				 return nodeNeighbors.indexOf(node.index) > -1; })
+				.style("stroke", "cyan").style("stroke-width", 6);
+
+			d3.selectAll("rect." + d.City).style("stroke", "orange").style("stroke-width", 6);
+			d3.selectAll("text." + d.City).style("font", "20px sans-serif").style("font-weight", "bold");
+			d3.selectAll("rect").filter(function(node) { 
+				return nodeLocations.indexOf(node.City) > -1; })
+				.style("stroke", "cyan").style("stroke-width", 6);
+			d3.selectAll("tr." + d.Last).style("background-color", "orange");
+			d3.selectAll("tr").filter(function(node) { 
+				return node ? nodeNames.indexOf(node.Last) > -1 : false; })
+				.style("background-color", "cyan"); 
+
+			})
+		.on("mouseout",  function(d) { 
+				svg.selectAll("circle").style("stroke", "gray").style("stroke-width", 1.5);
+				svg.selectAll("text").style("font", "12px sans-serif");
+				d3.selectAll("rect").style("stroke", "gray").style("stroke-width", 1.5);
+				d3.selectAll("text").style("font", "12px sans-serif");
+				d3.selectAll("tr").style("background-color", "white");
+			});
+
+	node.append("circle")
+		.attr("r", function(d) { return radius(d.size)+2; })
+		.style("fill", function(d) { return color(d.Agency); });
+
+
+	node.append("text")
+		.attr("dy", ".35em")
+		.attr("text-anchor", "middle")
+		.text(function(d) { return d.Last; });
+
+	var linkedByIndex = {};
+		graph.links.forEach(function(d) {
+			linkedByIndex[d.source.index + "," + d.target.index] = 1;
+			});
+
+	function isConnected(a, b) {
+		return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
+		}
+
+	function tick() {
+		link.selectAll("line")
+			.attr("x1", function(d) { return d.source.x; })
+			.attr("y1", function(d) { return d.source.y; })
+			.attr("x2", function(d) { return d.target.x; })
+			.attr("y2", function(d) { return d.target.y; });
+		node.attr("transform", function(d) { 
+			return "translate(" + d.x + "," + d.y + ")"; });
+		}
+
+	// map stuff
+
+	var xScale = d3.scale.linear()
+		.domain([-97.8374937, -70.0564777])
+		.range([0, mwidth]);
+
+	var yScale = d3.scale.linear()
+		.domain([41.5808256, 50.8997541])
+		.range([mheight, 0]);
+
+	var mapit = svg2.selectAll(".mapit")
+		.data(graph.locs)
+		.enter().append("g")
+		.on("mouseover", function(d) { 
+			d3.select(this).select("rect").style("stroke", "orange").style("stroke-width", 6); 
+			d3.select(this).select("text").style("font", "20px sans-serif").style("font-weight", "bold");
+			d3.selectAll("g." + d.City + " circle").style("stroke", "orange").style("stroke-width", 6); 
+
+			// Figure out the neighboring node ids
+			var nodeNeighbors = graph.links.filter(function(link) {
+				return link.source.index === d.index || link.target.index === d.index;})
+			.map(function(link) {
+				return link.source.index === d.index ? link.target.index : link.source.index; });
+			// Now we select the neighboring circles and apply whatever style we want
+			svg.selectAll("g." + d.City + " circle").filter(function(node) {
+				 return nodeNeighbors.indexOf(node.index) > -1; })
+				.style("stroke", "cyan").style("stroke-width", 6);
+
+			d3.selectAll("g." + d.City + " text").style("font", "20px sans-serif").style("font-weight", "bold");
+			d3.selectAll("tr." + d.City).style("background-color", "orange");
+
+			})
+		.on("mouseout",  function(d) { 
+			d3.select(this).select("rect").style("stroke", "gray").style("stroke-width", 1.5); 
+			d3.select(this).select("text").style("font", "12px sans-serif");
+			d3.selectAll("g." + d.City + " circle").style("stroke", "gray").style("stroke-width", 1.5); 
+			d3.selectAll("g." + d.City + " text").style("font", "12px sans-serif");
+			d3.selectAll("tr." + d.City).style("background-color", "white");
+			});
+
+	mapit.append("rect")
+		.attr("x", function(d) { return xScale(parseFloat(d.long)); })
+		.attr("y", function(d) { return yScale(d.lat); })
+		.attr("height", 10)
+		.attr("width", 10)
+		.attr("fill", "gray")
+		.attr("stroke", "gray")
+		.attr("stroke-width", "1.5")
+		.attr("class", function(d) { return d.City ;});
+
+	mapit.append("text")
+		.attr("x", function(d) { return xScale(parseFloat(d.long)); })
+		.attr("y", function(d) { return yScale(d.lat) -5; })
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "12px")
+		.attr("fill", "black")
+		.text(function(d) { return d.City; })
+		.attr("class", function(d) { return d.City ;});
+
+	// table stuff
+
+	function tabulate(tdata, columns) {
+		var table = d3.select("#mytable").append("table"),
+			thead = table.append("thead"),
+			tbody = table.append("tbody");
+		thead.append("tr").selectAll("th")
+			.data(columns)
+			.enter().append("th")
+			.style("font", "bold 11px sans-serif")
+			.text(function(column) { return column; });
+
+		var rows = tbody.selectAll("tr")
+			.data(tdata)
+			.enter().append("tr")
+			.style("font", "11px sans-serif")
+			.attr("class", function(d) { return d.Last + " " + d.City ;})
+			.on("mouseover", function(d){
+				d3.select(this).style("background-color", "orange");
+				d3.selectAll("g." + d.Last + " circle").style("stroke", "orange").style("stroke-width", 6);
+
+				// Figure out the neighboring node ids
+				var nodeNeighbors = graph.links.filter(function(link) {
+					return link.source.index === d.index || link.target.index === d.index;})
+				.map(function(link) {
+					return link.source.index === d.index ? link.target.index : link.source.index; });
+
+				// Now we select the neighboring circles and apply whatever style we want
+				svg.selectAll("circle").filter(function(node) {
+					 return nodeNeighbors.indexOf(node.index) > -1; })
+					.style("stroke", "cyan").style("stroke-width", 6);
+
+				d3.selectAll("g." + d.Last + " text").style("font", "20px sans-serif").style("font-weight", "bold");
+				d3.selectAll("rect." + d.City).style("stroke", "orange").style("stroke-width", 6);
+				d3.selectAll("text." + d.City).style("font", "20px sans-serif").style("font-weight", "bold");
+				})
+			.on("mouseout", function(d){
+				d3.select(this).style("background-color", "white");
+				svg.selectAll("circle").style("stroke", "gray").style("stroke-width", 1.5);
+				d3.selectAll("text").style("font", "12px sans-serif");
+				d3.selectAll("rect." + d.City).style("stroke", "gray").style("stroke-width", 1.5);
+				d3.selectAll("text." + d.City).style("font", "12px sans-serif");
+				});
+		
+		var cells = rows.selectAll("td")
+			.data(function(row) {
+				return columns.map(function(column) {
+					return {column: column, value: row[column]};
+					});
+				})
+			.enter().append("td")
+			.text(function(d) { return d.value; });
+		return table;
+		}
+
+	var subdata = graph.nodes.filter(function(d) { return d.City!="x"; });
+
+	var myTable = tabulate(subdata, ["Last", "First", "Agency", "City", "StateProv"]);
+
+	myTable.selectAll("tbody tr")
+		.sort(function(a, b) {
+			return d3.ascending(a.Last, b.Last);
+		});
+
+</script>
+</body>
