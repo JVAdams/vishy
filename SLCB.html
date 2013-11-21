@@ -15,24 +15,36 @@
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
-<div id="header" style="background-color:#feefe0; height:250px; width:1100px; padding: 0px 10px 0px 10px; float:left;">
+<div id="header" style="background-color:#f8ede2; height:220px; width:1080px; font: 14px sans-serif; padding: 0px 10px 0px 10px; float:left;">
 	<h2>Members of the Sea Lamprey Control Board and its Task Forces</h2>
-	<h4>Members of the Sea Lamprey Control Board and its Task Forces are shown below: 
-	Core (CORE) and plenary (PLEN) members of the Board, Budget Integration Group (BIG), 
-	Lampricide Control (LCTF), Trapping (TTF), Barrier (BTF), and Larval Assessment (LATF) Task Forces. 
-	Each agency has a unique color.
-	Group chairs are connected with double lines.
-	Some task force slots are filled with biologists on a rotating basis, denoted with an asterisk (*) after their names.
-	<em>If part of the diagram is not visible, you can click and drag it into view.</em>
-	<br><br>Office locations are also shown.  Scroll down to see the map.
-	<br><br>The table, diagram, and map are all interconnected.
-	<b>Mouse over</b> a row in the table, a person or group in the diagram, or a location in the map, and see what happens.
-	</h4>
+	<h3>CORE = Core and PLEN = plenary members of the Board
+		</br>BIG = Budget Integration Group
+		</br>LCTF = Lampricide Control, TTF = Trapping, BTF = Barrier, and LATF = Larval Assessment Task Forces</h3>
+	Some task force slots are filled with people on a rotating basis, these people are denoted with an asterisk (*) after their names.
+	</br>In the diagram, each agency has a unique color, and group chairs are connected with double lines.
+	<em>If part of the diagram is not visible, click and drag it into view.</em>
+	</br>The table, map, and diagram are all interconnected.
+	</br><b>Mouse over</b> a row in the table, a location in the map, or a person or group in the diagram and <b>see what happens</b>.
+	
 	</div>
 <div id="mytable" style="height:1000px; width:300px; float:left;"></div>
-<div id="mysvg1"  style="height: 650px; width:800px; float:left;"></div>
 <div id="mysvg2"  style="height: 274px; width:800px; float:left; background-image:url(MyMapWideTrans.png); background-color:#cccccc;"></div>
-<div id="gap3"    style="height:  30px; width:800px; float:left;"><small><em>Last updated 20 November 2013.</em></small></div>
+<div id="mysvg1"  style="height: 650px; width:800px; float:left;"></div>
+<div id="gap3"    style="height:  30px; width:800px; float:left;">
+	<small>
+		<em>Last updated 21 November 2013</em>
+		</br></br>Data prepared using the 
+			<a href="http://cran.us.r-project.org/">R</a> packages 
+			<a href="http://cran.us.r-project.org/web/packages/XLConnect/index.html">XLConnect</a>, 
+			<a href="http://cran.us.r-project.org/web/packages/dismo/index.html">dismo</a>, and
+			<a href="http://cran.us.r-project.org/web/packages/RJSONIO/index.html">RJSONIO</a>.
+			</br>Map by 
+			<a href="http://maps.stamen.com/">Stamen</a>, prepared using the 
+			<a href="http://cran.us.r-project.org/">R</a> package 
+			<a href="http://cran.us.r-project.org/web/packages/OpenStreetMap/index.html">OpenStreetMap</a>.
+			</br>Interactive diagram created using <a href="http://d3js.org/">D3.js</a>.
+	</small>
+</div>
 
 <script>
 
@@ -49,13 +61,13 @@
 
 	var scale = d3.scale.linear();
 
-	var svg = d3.select("#mysvg1").append("svg")
-		.attr("width", width)
-		.attr("height", height);
-
 	var svg2 = d3.select("#mysvg2").append("svg")
 		.attr("width", mwidth)
 		.attr("height", mheight);
+
+	var svg = d3.select("#mysvg1").append("svg")
+		.attr("width", width)
+		.attr("height", height);
 
 	var force = d3.layout.force()
 		.size([width, height])
@@ -64,7 +76,20 @@
 		.linkDistance(function(d) {
 			return radius(d.source.size) + radius(d.target.size) - 40 + (2 / (2*d.bond))
 			; });
+/*
+	d3.selection.prototype.moveToFront = function() {
+		return this.each(function(){
+			this.parentNode.appendChild(this);
+		});
+	};
 
+	d3.selection.prototype.moveToBack = function() { 
+		return this.each(function() { 
+			var firstChild = this.parentNode.firstChild; 
+			if (firstChild) { this.parentNode.insertBefore(this, firstChild); } 
+		}); 
+	}; 
+*/
 	var graph = 
 {
  "nodes": [ {
@@ -1230,7 +1255,6 @@
 		.attr("class", function(d) { return "node " + d.Last + " " + d.City; })
 		.call(force.drag)
 		.on("mouseover", function(d) { 
-			d3.select(this).select("circle").style("stroke-width", 6); 
 		
 			// Figure out the neighboring node ids
 			var nodeNeighbors = graph.links.filter(function(link) {
@@ -1328,6 +1352,7 @@
 				return link.source.index === d.index || link.target.index === d.index;})
 			.map(function(link) {
 				return link.source.index === d.index ? link.target.index : link.source.index; });
+
 			// Now we select the neighboring circles and apply whatever style we want
 			svg.selectAll("g." + d.City + " circle").filter(function(node) {
 				 return nodeNeighbors.indexOf(node.index) > -1; })
