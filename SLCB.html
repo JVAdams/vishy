@@ -20,11 +20,11 @@
 	<h3>CORE = Core and PLEN = plenary members of the Board
 		</br>BIG = Budget Integration Group
 		</br>LCTF = Lampricide Control, TTF = Trapping, BTF = Barrier, and LATF = Larval Assessment Task Forces</h3>
-	Some task force slots are filled with people on a rotating basis, these people are denoted with an underscore (_) after their names.
+	The table, map, and diagram are all interconnected.
+	</br><b>Mouse over</b> a row in the table, a location in the map, or a person or group in the diagram and <b>see what happens</b>.
 	</br>In the diagram, each agency has a unique color, and group chairs are connected with double lines.
 	<em>If part of the diagram is not visible, click and drag it into view.</em>
-	</br>The table, map, and diagram are all interconnected.
-	</br><b>Mouse over</b> a row in the table, a location in the map, or a person or group in the diagram and <b>see what happens</b>.
+	</br>Some task force slots are filled with people on a rotating basis, these people are denoted with an underscore (_) after their names.
 	
 	</div>
 <div id="mytable" style="height:1000px; width:300px; float:left;"></div>
@@ -32,7 +32,7 @@
 <div id="mysvg1"  style="height: 650px; width:800px; float:left;"></div>
 <div id="gap3"    style="height:  30px; width:800px; float:left;">
 	<small>
-		<em>Last updated 2 April 2014</em>
+		<em>Last updated 8 April 2014</em>
 		</br></br>Data prepared using the 
 			<a href="http://cran.us.r-project.org/">R</a> packages 
 			<a href="http://cran.us.r-project.org/web/packages/XLConnect/index.html">XLConnect</a>, 
@@ -91,6 +91,7 @@
 	}; 
 */
 	var graph = 
+
 {
  "nodes": [ {
  "Last": "Hansen",
@@ -189,16 +190,16 @@
 "size": "12" 
 },
 {
- "Last": "Siefkes",
-"First": "Mike",
+ "Last": "Treska",
+"First": "Ted",
 "Agency": "GLFC",
 "City": "AnnArbor",
 "StateProv": "MI",
 "size": "12" 
 },
 {
- "Last": "Treska",
-"First": "Ted",
+ "Last": "Siefkes",
+"First": "Mike",
 "Agency": "GLFC",
 "City": "AnnArbor",
 "StateProv": "MI",
@@ -213,11 +214,43 @@
 "size": "12" 
 },
 {
+ "Last": "Kaye",
+"First": "Cheryl",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
  "Last": "Adams",
 "First": "Jean",
 "Agency": "USGS",
 "City": "Antigo",
 "StateProv": "WI",
+"size": "12" 
+},
+{
+ "Last": "Walter",
+"First": "Lisa",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Hubert",
+"First": "Terry",
+"Agency": "USGS",
+"City": "LaCrosse",
+"StateProv": "WI",
+"size": "12" 
+},
+{
+ "Last": "Nowicki",
+"First": "Shawn",
+"Agency": "USFWS",
+"City": "Marquette",
+"StateProv": "MI",
 "size": "12" 
 },
 {
@@ -237,22 +270,6 @@
 "size": "12" 
 },
 {
- "Last": "Hubert",
-"First": "Terry",
-"Agency": "USGS",
-"City": "LaCrosse",
-"StateProv": "WI",
-"size": "12" 
-},
-{
- "Last": "Kaye",
-"First": "Cheryl",
-"Agency": "USFWS",
-"City": "Marquette",
-"StateProv": "MI",
-"size": "12" 
-},
-{
  "Last": "Lantz",
 "First": "Stephen",
 "Agency": "USFWS",
@@ -261,7 +278,7 @@
 "size": "12" 
 },
 {
- "Last": "Morrison",
+ "Last": "MorrisonB",
 "First": "Bruce",
 "Agency": "DFO",
 "City": "SaultSteMarie",
@@ -269,8 +286,8 @@
 "size": "12" 
 },
 {
- "Last": "Nowicki",
-"First": "Shawn",
+ "Last": "Neely",
+"First": "Rebecca",
 "Agency": "USFWS",
 "City": "Marquette",
 "StateProv": "MI",
@@ -301,14 +318,6 @@
 "size": "12" 
 },
 {
- "Last": "Walter",
-"First": "Lisa",
-"Agency": "USFWS",
-"City": "Marquette",
-"StateProv": "MI",
-"size": "12" 
-},
-{
  "Last": "Wilkie",
 "First": "Mike",
 "Agency": "WLU",
@@ -325,11 +334,11 @@
 "size": "12" 
 },
 {
- "Last": "Claramunt",
-"First": "Randy",
-"Agency": "MIDNR",
-"City": "Charlevoix",
-"StateProv": "MI",
+ "Last": "McLaughlin",
+"First": "Rob",
+"Agency": "UG",
+"City": "Guelph",
+"StateProv": "ON",
 "size": "12" 
 },
 {
@@ -357,14 +366,6 @@
 "size": "12" 
 },
 {
- "Last": "McLaughlin",
-"First": "Rob",
-"Agency": "UG",
-"City": "Guelph",
-"StateProv": "ON",
-"size": "12" 
-},
-{
  "Last": "Paudel",
 "First": "Bhuwani",
 "Agency": "DFO",
@@ -389,14 +390,6 @@
 "size": "12" 
 },
 {
- "Last": "Rose",
-"First": "Melissa",
-"Agency": "OMNR",
-"City": "Peterborough",
-"StateProv": "ON",
-"size": "12" 
-},
-{
  "Last": "VanKempen",
 "First": "Tonia",
 "Agency": "DFO",
@@ -405,11 +398,43 @@
 "size": "12" 
 },
 {
+ "Last": "Whelan",
+"First": "Gary",
+"Agency": "MIDNR",
+"City": "Lansing",
+"StateProv": "MI",
+"size": "12" 
+},
+{
  "Last": "Bravener",
 "First": "Gale",
 "Agency": "DFO",
 "City": "SaultSteMarie",
 "StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Steeves",
+"First": "Mike",
+"Agency": "DFO",
+"City": "SaultSteMarie",
+"StateProv": "ON",
+"size": "12" 
+},
+{
+ "Last": "Li",
+"First": "Weiming",
+"Agency": "MSU",
+"City": "EastLansing",
+"StateProv": "MI",
+"size": "12" 
+},
+{
+ "Last": "Wagner",
+"First": "Mike",
+"Agency": "MSU",
+"City": "EastLansing",
+"StateProv": "MI",
 "size": "12" 
 },
 {
@@ -437,14 +462,6 @@
 "size": "12" 
 },
 {
- "Last": "Li",
-"First": "Weiming",
-"Agency": "MSU",
-"City": "EastLansing",
-"StateProv": "MI",
-"size": "12" 
-},
-{
  "Last": "Miehls",
 "First": "Scott",
 "Agency": "USGS",
@@ -458,22 +475,6 @@
 "Agency": "USGS",
 "City": "LaCrosse",
 "StateProv": "WI",
-"size": "12" 
-},
-{
- "Last": "Steeves",
-"First": "Mike",
-"Agency": "DFO",
-"City": "SaultSteMarie",
-"StateProv": "ON",
-"size": "12" 
-},
-{
- "Last": "Wagner",
-"First": "Mike",
-"Agency": "MSU",
-"City": "EastLansing",
-"StateProv": "MI",
 "size": "12" 
 },
 {
@@ -525,7 +526,7 @@
 "size": "12" 
 },
 {
- "Last": "Morrison_",
+ "Last": "MorrisonS_",
 "First": "Sean",
 "Agency": "DFO",
 "City": "SaultSteMarie",
@@ -744,7 +745,7 @@
 "bond":      1 
 },
 {
- "source":     13,
+ "source":     12,
 "target":     67,
 "bond":      1 
 },
@@ -819,12 +820,17 @@
 "bond":      1 
 },
 {
+ "source":     28,
+"target":     67,
+"bond":      1 
+},
+{
  "source":     11,
 "target":     68,
 "bond":      1 
 },
 {
- "source":     12,
+ "source":     13,
 "target":     68,
 "bond":      1 
 },
@@ -834,19 +840,14 @@
 "bond":      1 
 },
 {
- "source":     19,
+ "source":     15,
 "target":     68,
 "bond":      1 
-},
-{
- "source":     28,
-"target":     68,
-"bond":      2 
 },
 {
  "source":     29,
 "target":     68,
-"bond":      1 
+"bond":      2 
 },
 {
  "source":     30,
@@ -899,22 +900,22 @@
 "bond":      1 
 },
 {
- "source":     12,
+ "source":     13,
 "target":     69,
 "bond":      1 
 },
 {
- "source":     15,
+ "source":     16,
 "target":     69,
 "bond":      1 
 },
 {
- "source":     28,
+ "source":     29,
 "target":     69,
 "bond":      1 
 },
 {
- "source":     33,
+ "source":     30,
 "target":     69,
 "bond":      1 
 },
@@ -969,7 +970,7 @@
 "bond":      1 
 },
 {
- "source":     13,
+ "source":     12,
 "target":     70,
 "bond":      1 
 },
@@ -979,17 +980,17 @@
 "bond":      1 
 },
 {
- "source":     15,
+ "source":     16,
 "target":     70,
 "bond":      1 
 },
 {
- "source":     26,
+ "source":     17,
 "target":     70,
 "bond":      2 
 },
 {
- "source":     46,
+ "source":     40,
 "target":     70,
 "bond":      1 
 },
@@ -1074,22 +1075,27 @@
 "bond":      1 
 },
 {
+ "source":     17,
+"target":     71,
+"bond":      1 
+},
+{
  "source":     18,
 "target":     71,
 "bond":      1 
 },
 {
- "source":     26,
+ "source":     19,
 "target":     71,
 "bond":      1 
 },
 {
- "source":     28,
+ "source":     29,
 "target":     71,
 "bond":      1 
 },
 {
- "source":     33,
+ "source":     30,
 "target":     71,
 "bond":      1 
 },
@@ -1099,17 +1105,17 @@
 "bond":      1 
 },
 {
- "source":     43,
+ "source":     40,
 "target":     71,
 "bond":      1 
 },
 {
- "source":     46,
+ "source":     41,
 "target":     71,
 "bond":      1 
 },
 {
- "source":     47,
+ "source":     42,
 "target":     71,
 "bond":      1 
 },
@@ -1209,9 +1215,9 @@
 "City": "Waterloo" 
 },
 {
- "long": "-85.2584004",
-"lat": "45.3180632",
-"City": "Charlevoix" 
+ "long": "-80.2481666",
+"lat": "43.5448048",
+"City": "Guelph" 
 },
 {
  "long": "-87.8258463",
@@ -1224,19 +1230,14 @@
 "City": "Detroit" 
 },
 {
- "long": "-80.2481666",
-"lat": "43.5448048",
-"City": "Guelph" 
-},
-{
  "long": "-86.2283864",
 "lat": "43.0630734",
 "City": "GrandHaven" 
 },
 {
- "long": "-78.319747",
-"lat": "44.309058",
-"City": "Peterborough" 
+ "long": "-84.5555347",
+"lat": "42.732535",
+"City": "Lansing" 
 },
 {
  "long": "-72.5564777",
